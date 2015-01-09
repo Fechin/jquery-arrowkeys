@@ -1,0 +1,36 @@
+/*
+ * demo.css
+ * Copyright (C) 2015 Fechin
+ *
+ * Distributed under terms of the MIT license.
+ */
+
+body {
+	background: white;
+	color: black;
+}
+
+div {
+    width:80px;
+    height:80px;
+    background:gray;
+    display:inline-block;
+    margin:5px;
+}
+div span {
+    text-align:center;
+    margin 0 auto;
+    font-size:30px;
+}
+.focused {
+    border:2px solid red;
+    border-radius: 10px;
+}
+.barrier{
+    background: red;
+}
+.active {
+    border:3px solid orange;
+    border-radius: 10px;
+}
+

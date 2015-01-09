@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+</head>
+<body>
+<article>
+    <div class="focusable"><span>1</span>
+
+    </div>
+    <div class="focusable"><span>2</span>
+
+    </div>
+    <div class="barrier"><span>3</span>
+
+    </div>
+    <div class="focusable"><span>3</span>
+
+    </div>
+    <div class="barrier"><span>3</span>
+    </div>
+    <div>
+        <div class="focusable"><span>4</span>
+
+        </div>
+    </div>
+</article>
+</body>
+<script src="../libs/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../dist/arrowkeys.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+    $(document).arrowkeys({
+        customKeyEvent: {
+            // KeyCode : function
+            65 : function(evt){ alert("a" + this + evt.keyCode); },
+            66 : function(evt){ alert("b"); } 
+        },
+        enterFunc : function(obj, evt){
+            alert("enter:" + obj.text());
+        },
+        backFunc : function(obj, evt){
+            alert("back");
+        },
+        upFunc : function(obj, evt){
+            alert("up");
+        },
+        downFunc : function(obj, evt){
+            alert("down");
+        },
+    });
+</script>
+</html>
