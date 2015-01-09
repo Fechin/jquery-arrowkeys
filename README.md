@@ -1,7 +1,10 @@
 jQuery Arrowkeys Plugin
 ========
 
+[![Build Status](https://travis-ci.org/Fechin/jquery-arrowkeys.svg)](https://travis-ci.org/Fechin/jquery-arrowkeys)
+
 Arrowkeys is a jQuery plugin that aims to bind events for the arrow keys.
+
 
 Demo & Examples 
 -----
