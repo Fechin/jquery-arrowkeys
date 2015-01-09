@@ -31,6 +31,13 @@ module.exports = function(grunt) {
         qunit: {
             files: ['test/**/*.html']
         },
+        copy: {
+          main: {
+            files: [
+              {src: ['src/*.js'], dest: 'dist/<%=pkg.name %>.js', filter: 'isFile'}, // 复制path目录下的所有文件
+            ]
+          }
+        },
         watch: {
             scripts: {
                 files: ['**/*.js'],
@@ -47,9 +54,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'qunit', 'watch']);
+    grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'qunit','copy', 'watch']);
 
 };
