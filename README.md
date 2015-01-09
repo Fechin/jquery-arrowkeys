@@ -11,7 +11,7 @@ http://fechin.github.io/jquery-arrowkeys/
 Usage
 -----
 
-1. **HTML**(don't forget to add `focusable` to element which you want to bind arrow events)
+1. **HTML** (don't forget to add `focusable` to element which you want to bind arrow events)
 
 ```html
     <div class="focusable"><span>1</span></div>
