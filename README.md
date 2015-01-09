@@ -12,7 +12,7 @@ Usage
 -----
 
 1. **HTML**
-    Don't forget to add `focusable` to element which you want to bind arrow events
+    （Don't forget to add `focusable` to element which you want to bind arrow events）
     ```html
     <div class="focusable"><span>1</span></div>
     <div class="focusable"><span>2</span></div>
