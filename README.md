@@ -11,9 +11,9 @@ http://fechin.github.io/jquery-arrowkeys/
 Usage
 -----
 
-1. **HTML**(don't forget to add `focusable` to element which you want to bind arrow events)
-
-```html
+1. **HTML**
+    （Don't forget to add `focusable` to element which you want to bind arrow events）
+    ```html
     <div class="focusable"><span>1</span></div>
     <div class="focusable"><span>2</span></div>
     <div class="barrier"><span>3</span></div>
@@ -24,20 +24,14 @@ Usage
     </div>
 ```
 
-
-2. **Include jQuery**
-
-    ```html
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-```
-
-3. **Include Arrowkeys jQuery Plugin**
+2. **Include jQuery And Arrowkeys Plugin**
 
     ```html
-<script src="path_to_your_js/jquery-arrowkeys.min.js" type="text/javascript"></script>
+<script src="../libs/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="../dist/arrowkeys.min.js" type="text/javascript"></script>
 ```
 
-4. **Initialize Arrowkeys!**
+3. **Initialize Arrowkeys!**
 
    ```html
 <script type="text/javascript" charset="utf-8">
