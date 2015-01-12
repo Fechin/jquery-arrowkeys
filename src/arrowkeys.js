@@ -72,16 +72,17 @@
         }
     };
 
-    var EventManager = function (settings) {
+    var EventManager = function (target, settings) {
         this.opts = $.extend({
             activeFirstElement: false,
             customKeyEvent: {},
             focusableClass: "focusable",
             focusedClass: "focused"
         }, settings);
+
         this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8};
         this.arrow = new Arrow(this.opts);
-
+        this.target = target;
         this.__constructor__();
     };
 
@@ -90,6 +91,8 @@
             if (this.opts.activeFirstElement) {
                 this.activeFirstElement();
             }
+            var tabindex = this.opts.tabindex || 1;
+            $(this.target).attr("tabindex", tabindex);
         },
 
         // Selected the first element
@@ -101,7 +104,7 @@
 
         // Handle event maps.
         // Bind all custom events to key
-        bindCustomKeyEvent: function (evt) {
+        addCustomKeyEvent: function (evt) {
             evt = evt || window.event;
             var KeyEvent = this.opts.customKeyEvent;
             for (var key in KeyEvent) {
@@ -112,7 +115,7 @@
             }
         },
 
-        bindBasicKey: function (evt) {
+        addCommonKeyEvent: function (evt) {
             var keys = this.keys,
                 actv = this.opts.focusedClass,
                 focused = $('.' + actv);
@@ -133,22 +136,22 @@
             switch (keyCode) {
                 case keys.LEFT:
                     this.arrow.left(evt);
-                    // evt.preventDefault();
+                    evt.preventDefault();
                     break;
 
                 case keys.UP:
                     this.arrow.up(evt);
-                    // evt.preventDefault();
+                    evt.preventDefault();
                     break;
 
                 case keys.RIGHT:
                     this.arrow.right(evt);
-                    // evt.preventDefault();
+                    evt.preventDefault();
                     break;
 
                 case keys.DOWN:
                     this.arrow.down(evt);
-                    // evt.preventDefault();
+                    evt.preventDefault();
                     break;
 
                 case keys.ENTER:
@@ -157,7 +160,7 @@
                     } else {
                         // default enter event
                     }
-                    // evt.preventDefault();
+                    evt.preventDefault();
                     break;
 
                 case keys.BACK:
@@ -172,24 +175,30 @@
                 default:
                     return;
             }
+        },
+        destroy: function () {
+            // unbind keydown listener
+            $(this.target).unbind("keydown");
+            // clear focused class
+            $(this.target).find("." + this.opts.focusableClass).blur()
+                .removeClass(this.opts.focusedClass);
         }
     };
 
     jQuery.fn.arrowkeys = function (settings) {
         var target = this || document,
-            boss = new EventManager(settings),
-            tabindex = settings.tabindex || 1;
+            boss = new EventManager(target, settings);
 
-        $(target).attr("tabindex", tabindex).unbind("keydown");
+        // destroy arrowkeys
+        boss.destroy();
 
         // bind event
         $(target).keydown(function (evt) {
-            boss.bindBasicKey(evt);
-            boss.bindCustomKeyEvent(evt);
+            boss.addCommonKeyEvent(evt);
+            boss.addCustomKeyEvent(evt);
         });
 
         return jQuery;
     };
 
 }));
-

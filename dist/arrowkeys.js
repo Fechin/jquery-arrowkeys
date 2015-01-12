@@ -4,7 +4,7 @@
  *
  * Distributed under terms of the MIT license.
  */
-(function(factory){
+(function (factory) {
     'use strict';
 
     var AMD = typeof define === 'function' && define.amd,
@@ -13,45 +13,45 @@
     if (AMD) {
         // Register as an anonymous AMD module
         define(['jquery'], factory);
-    } else if(CommonJS){
+    } else if (CommonJS) {
         // Register as an Node.js module
         module.exports = factory(require("jquery"));
     } else {
         // Browser globals
         factory(window.jQuery);
     }
-}(function($){
-    var Arrow = function( settings ){
+}(function ($) {
+    var Arrow = function (settings) {
         this.opts = settings;
     };
 
     Arrow.prototype = {
 
-        up: function( evt ){
+        up: function (evt) {
             var focused = $("." + this.opts.focusedClass);
-            if($.isFunction(this.opts.upFunc)){
+            if ($.isFunction(this.opts.upFunc)) {
                 this.opts.upFunc.call(this, focused, evt);
-            }else{
+            } else {
                 // default up arrow event
                 // $(_dot_actv).find("span").text(parseInt($(_dot_actv).text()) + 1);
             }
         },
 
-        down: function( evt ){
+        down: function (evt) {
             var focused = $("." + this.opts.focusedClass);
-            if($.isFunction(this.opts.downFunc)){
+            if ($.isFunction(this.opts.downFunc)) {
                 this.opts.downFunc.call(this, focused, evt);
-            }else{
+            } else {
                 // default down arrow event
                 // $(_dot_actv).find("span").text(parseInt($(_dot_actv).text()) - 1);
             }
         },
 
-        left: function( evt ){
+        left: function (evt) {
             var elements = $("." + this.opts.focusableClass);
-                actv = this.opts.focusedClass;
-            for (var i = 1; i < elements.length ; i++) {
-                if (elements.eq(i).hasClass(actv)){
+            actv = this.opts.focusedClass;
+            for (var i = 1; i < elements.length; i++) {
+                if (elements.eq(i).hasClass(actv)) {
                     elements.eq(i).removeClass(actv);
                     elements.eq(i - 1).focus().addClass(actv);
                     break;
@@ -59,41 +59,43 @@
             }
         },
 
-        right: function( evt ){
+        right: function (evt) {
             var elements = $("." + this.opts.focusableClass);
-                actv = this.opts.focusedClass;
-            for (var i = 0; i < elements.length - 1 ; i++) {
-                if (elements.eq(i).hasClass(actv)){
+            actv = this.opts.focusedClass;
+            for (var i = 0; i < elements.length - 1; i++) {
+                if (elements.eq(i).hasClass(actv)) {
                     elements.eq(i).removeClass(actv);
                     elements.eq(i + 1).focus().addClass(actv);
                     break;
                 }
             }
-        },
+        }
     };
 
-    var EventManager = function( settings ){
+    var EventManager = function (target, settings) {
         this.opts = $.extend({
             activeFirstElement: false,
             customKeyEvent: {},
             focusableClass: "focusable",
             focusedClass: "focused"
         }, settings);
-        this.keys = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8 };
-        this.arrow = new Arrow( this.opts );
-
+        this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8};
+        this.arrow = new Arrow(this.opts);
+        this.target = target;
         this.__constructor__();
     };
 
     EventManager.prototype = {
-        __constructor__: function(){
-            if(this.opts.activeFirstElement){
+        __constructor__: function () {
+            if (this.opts.activeFirstElement) {
                 this.activeFirstElement();
             }
+            var tabindex = this.opts.tabindex || 1;
+            $(this.target).attr("tabindex", tabindex);
         },
 
         // Selected the first element
-        activeFirstElement: function(){
+        activeFirstElement: function () {
             var cards = $("." + this.opts.focusableClass),
                 actv = this.opts.focusedClass;
             cards.first().focus().addClass(actv);
@@ -101,18 +103,18 @@
 
         // Handle event maps.
         // Bind all custom events to key
-        bindCustomKeyEvent: function( evt ){
+        addCustomKeyEvent: function (evt) {
             evt = evt || window.event;
             var KeyEvent = this.opts.customKeyEvent;
             for (var key in KeyEvent) {
-                if(key == (evt.keyCode || evt.which) && $.isFunction(KeyEvent[key])){
+                if (key == (evt.keyCode || evt.which) && $.isFunction(KeyEvent[key])) {
                     // Trigger custom event
                     KeyEvent[key].call(this, evt);
                 }
             }
         },
 
-        bindBasicKey: function( evt ){
+        addCommonKeyEvent: function (evt) {
             var keys = this.keys,
                 actv = this.opts.focusedClass,
                 focused = $('.' + actv);
@@ -121,69 +123,81 @@
             var keyCode = evt.which || evt.keyCode;
 
             // Focus the first element if has not actives.
-            if (focused.length === 0){
-                for (var key in keys){
-                    if ( keyCode === keys[key] ){
+            if (focused.length === 0) {
+                for (var key in keys) {
+                    if (keyCode === keys[key]) {
                         this.activeFirstElement();
                         return;
                     }
                 }
             }
-            
+
             switch (keyCode) {
                 case keys.LEFT:
-                    this.arrow.left( evt );
+                    this.arrow.left(evt);
+                    evt.preventDefault();
                     break;
 
                 case keys.UP:
-                    this.arrow.up( evt );
+                    this.arrow.up(evt);
+                    evt.preventDefault();
                     break;
 
                 case keys.RIGHT:
-                    this.arrow.right( evt );
+                    this.arrow.right(evt);
+                    evt.preventDefault();
                     break;
 
                 case keys.DOWN:
-                    this.arrow.down( evt );
+                    this.arrow.down(evt);
+                    evt.preventDefault();
                     break;
 
                 case keys.ENTER:
-                    if($.isFunction(this.opts.enterFunc)){
+                    if ($.isFunction(this.opts.enterFunc)) {
                         this.opts.enterFunc.call(this, focused, evt);
-                    }else{
+                    } else {
                         // default enter event
                     }
+                    evt.preventDefault();
                     break;
 
                 case keys.BACK:
-                    if($.isFunction(this.opts.backFunc)){
+                    if ($.isFunction(this.opts.backFunc)) {
                         this.opts.backFunc.call(this, focused, evt);
-                    }else{
+                    } else {
                         // default back event
                     }
+                    evt.preventDefault();
                     break;
 
                 default:
                     return;
             }
-            evt.preventDefault();
+        },
+        destroy: function () {
+            // unbind keydown listener
+            $(this.target).unbind("keydown");
+            // clear focused class
+            $(this.target).find("." + this.opts.focusableClass).blur()
+                .removeClass(this.opts.focusedClass);
         }
     };
 
-    jQuery.fn.arrowkeys = function( settings ){
+    jQuery.fn.arrowkeys = function (settings) {
         var target = this || document,
-            boss = new EventManager( settings ),
-            tabindex = settings.tabindex || 1;
+            boss = new EventManager(target, settings);
 
-        $(target).attr("tabindex",tabindex).unbind("keydown");
+        // destroy arrowkeys
+        boss.destroy();
 
         // bind event
-        $(target).keydown(function(evt){
-           boss.bindBasicKey( evt );
-           boss.bindCustomKeyEvent( evt );
+        $(target).keydown(function (evt) {
+            boss.addCommonKeyEvent(evt);
+            boss.addCustomKeyEvent(evt);
         });
 
         return jQuery;
     };
-    
+
 }));
