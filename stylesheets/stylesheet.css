@@ -423,3 +423,36 @@ Small Device Styles
   }
 
 }
+/*******************************************************************************
+Demo
+*******************************************************************************/
+article {
+    margin-bottom: 50px;
+}
+article div{
+    width:100px;
+    height:100px;
+    background:#37E84E;
+    margin:5px;
+    display:inline-block;
+}
+section#wrap{
+    background:#4188D2;
+    display:inline-block;
+}
+.focusable1{
+    background:#37E84E;
+}
+.focused1{
+    border:2px solid #F23D70;
+    border-radius: 5px;
+}
+.focusable2{
+    background:#F03C79;
+
+}
+.focused2{
+    border:2px solid black;
+    border-radius: 5px;
+}
+
