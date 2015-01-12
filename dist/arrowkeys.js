@@ -79,6 +79,7 @@
             focusableClass: "focusable",
             focusedClass: "focused"
         }, settings);
+
         this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8};
         this.arrow = new Arrow(this.opts);
         this.target = target;
@@ -87,6 +88,9 @@
 
     EventManager.prototype = {
         __constructor__: function () {
+            // destroy arrowkeys
+            this.destroy();
+            
             if (this.opts.activeFirstElement) {
                 this.activeFirstElement();
             }
@@ -188,8 +192,6 @@
         var target = this || document,
             boss = new EventManager(target, settings);
 
-        // destroy arrowkeys
-        boss.destroy();
 
         // bind event
         $(target).keydown(function (evt) {

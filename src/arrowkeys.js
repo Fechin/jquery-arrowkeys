@@ -88,6 +88,9 @@
 
     EventManager.prototype = {
         __constructor__: function () {
+            // destroy arrowkeys
+            this.destroy();
+            
             if (this.opts.activeFirstElement) {
                 this.activeFirstElement();
             }
@@ -189,8 +192,6 @@
         var target = this || document,
             boss = new EventManager(target, settings);
 
-        // destroy arrowkeys
-        boss.destroy();
 
         // bind event
         $(target).keydown(function (evt) {
