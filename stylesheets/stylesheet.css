@@ -452,7 +452,8 @@ section#wrap{
 
 }
 .focused2{
-    border:2px solid black;
-    border-radius: 5px;
+    outline:#00FF00 dotted thick;
+    /* border:2px solid black; */
+    /* border-radius: 5px; */
 }
 
