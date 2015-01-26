@@ -77,10 +77,14 @@
             activeFirstElement: false,
             customKeyEvent: {},
             focusableClass: "focusable",
-            focusedClass: "focused"
+            focusedClass: "focused",
+            direction: "h"
         }, settings);
 
         this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8};
+        if (this.opts.direction.trim() == "v") {
+            this.keys = {LEFT: 38, UP: 37, RIGHT: 40, DOWN: 39, ENTER: 13, BACK: 8};
+        }
         this.arrow = new Arrow(this.opts);
         this.target = target;
         this.__constructor__();
