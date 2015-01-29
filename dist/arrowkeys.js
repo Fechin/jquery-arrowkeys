@@ -182,10 +182,11 @@
             } else {
                 for (var key in keys) {
                     if (keyCode === keys[key]) {
-                        var pos = this.arrow.movement(key);
-                        // Trigger callback function
+                        var point = this.arrow.movement(key);
+                        // Trigger callback function.
                         if ($.isFunction(this.opts.callback)) {
-                            this.opts.callback.call(this, pos, evt);
+                            this.opts.callback.call(this, point, evt);
+                            var soka = "";
                         }
                         evt.preventDefault();
                         return;

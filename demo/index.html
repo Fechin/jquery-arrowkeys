@@ -73,8 +73,8 @@
     function activeDemo1(obj) {
         $(obj).blur();
         $(document).arrowkeys({
-            callback: function(pos, evt){
-                $("#position").text("x:" + pos.x + "\ty:" + pos.y);
+            callback: function(point, evt){
+                $("#position").text("x:" + point.x + "\ty:" + point.y);
             }
         });
     }
