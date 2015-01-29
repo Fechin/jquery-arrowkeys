@@ -36,8 +36,11 @@ Usage
 ```
 
 3. **Initialize Arrowkeys!**
-   ```html
-$(document).arrowkeys();
+
+    ```html
+<script type="text/javascript" charset="utf-8">
+    $(document).arrowkeys();
+</script>
 ```
 OR
    ```html
