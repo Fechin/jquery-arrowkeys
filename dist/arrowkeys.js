@@ -74,6 +74,8 @@
             }
             // Add focused class to next card
             $(line[index]).focus().addClass(actv);
+            return {x: ++pos.x, y: ++pos.y};
+            
         },
         position: function () {
             var rows = [], cols = [],
@@ -180,7 +182,11 @@
             } else {
                 for (var key in keys) {
                     if (keyCode === keys[key]) {
-                        this.arrow.movement(key);
+                        var pos = this.arrow.movement(key);
+                        // Trigger callback function
+                        if ($.isFunction(this.opts.callback)) {
+                            this.opts.callback.call(this, pos, evt);
+                        }
                         evt.preventDefault();
                         return;
                     }

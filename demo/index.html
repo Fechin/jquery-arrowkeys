@@ -12,8 +12,9 @@
         <nav>
             <a href="javascript:void(0);" onclick="activeDemo1(this)">Demo1</a>
             <a href="javascript:void(0);" onclick="activeDemo2(this)">Demo2</a>
+            Position: <span id="position"></span>
+            <p></p>
         </nav>
-        <p></p>
     </header>
     <section id="demo1">
         <div class="focusable-row1"></div>
@@ -71,7 +72,11 @@
 <script type="text/javascript" charset="utf-8">
     function activeDemo1(obj) {
         $(obj).blur();
-        $(document).arrowkeys();
+        $(document).arrowkeys({
+            callback: function(pos, evt){
+                $("#position").text("x:" + pos.x + "\ty:" + pos.y);
+            }
+        });
     }
     activeDemo1();
 
