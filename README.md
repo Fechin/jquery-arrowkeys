@@ -19,12 +19,13 @@ Usage
     ```html
     <div class="focusable-row1"></div>
     <div class="focusable-row1"></div>
-    <div class="focusable-row2 otherclass"></div>
     <div class="focusable-row1"></div>
     <div class="focusable-row1"></div>
     <br>
+    <div class="focusable-row2 otherclass"></div>
     <div class="focusable-row2"></div>
     <div class="focusable-row2 other"></div>
+    <br>
     <div class="focusable-row3"></div>
 ```
 
