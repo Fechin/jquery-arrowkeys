@@ -21,74 +21,107 @@
         factory(window.jQuery);
     }
 }(function ($) {
-    var Arrow = function (settings) {
+    var Arrow = function (cards, settings) {
         this.opts = settings;
+        this.cards = cards;
+        this.cardMap = {};
+
+        // Classification by class name
+        for (var i = 0, leni = cards.length; i < leni; i++) {
+            var classes = cards.eq(i).attr("class").split(" ");
+            for (var j = 0, lenj = classes.length; j < lenj; j++) {
+                if (classes[j].indexOf(this.opts.focusableClass) > -1) {
+                    if (this.cardMap.hasOwnProperty(classes[j])) {
+                        continue;
+                    }
+                    this.cardMap[classes[j]] = cards.filter("." + classes[j]);
+                }
+            }
+        }
     };
 
     Arrow.prototype = {
-
-        up: function (evt) {
-            var focused = $("." + this.opts.focusedClass);
-            if ($.isFunction(this.opts.upFunc)) {
-                this.opts.upFunc.call(this, focused, evt);
-            } else {
-                // default up arrow event
-                // $(_dot_actv).find("span").text(parseInt($(_dot_actv).text()) + 1);
+        movement: function (direction) {
+            var pos = this.position(),
+                actv = this.opts.focusedClass,
+                line = [], index = 0;
+            // Remove focused class
+            $(pos.rows[pos.x]).blur().removeClass(actv);
+            if (direction === "LEFT") {
+                if (pos.x === 0) {
+                    pos.x = pos.rows.length;
+                }
+                index = --pos.x;
+                line = pos.rows;
+            } else if (direction === "RIGHT") {
+                if (pos.x === pos.rows.length - 1) {
+                    pos.x = -1;
+                }
+                index = ++pos.x;
+                line = pos.rows;
+            } else if (direction === "UP") {
+                if (pos.y === 0) {
+                    pos.y = pos.cols.length;
+                }
+                index = --pos.y;
+                line = pos.cols;
+            } else if (direction === "DOWN") {
+                if (pos.y === pos.cols.length - 1) {
+                    pos.y = -1;
+                }
+                index = ++pos.y;
+                line = pos.cols;
             }
+            // Add focused class to next card
+            $(line[index]).focus().addClass(actv);
         },
+        position: function () {
+            var rows = [], cols = [],
+                x = 0, y = 0,
+                actv = this.opts.focusedClass,
+                able = this.opts.focusableClass;
 
-        down: function (evt) {
-            var focused = $("." + this.opts.focusedClass);
-            if ($.isFunction(this.opts.downFunc)) {
-                this.opts.downFunc.call(this, focused, evt);
-            } else {
-                // default down arrow event
-                // $(_dot_actv).find("span").text(parseInt($(_dot_actv).text()) - 1);
-            }
-        },
-
-        left: function (evt) {
-            var elements = $("." + this.opts.focusableClass);
-            actv = this.opts.focusedClass;
-            for (var i = 1; i < elements.length; i++) {
-                if (elements.eq(i).hasClass(actv)) {
-                    elements.eq(i).removeClass(actv);
-                    elements.eq(i - 1).focus().addClass(actv);
+            var classes = this.cards.filter("." + actv)
+                .attr("class").split(" ");
+            // rows and y
+            for (var i = 0, len = classes.length; i < len; i++) {
+                if (classes[i].indexOf(able) > -1) {
+                    rows = this.cards.filter("." + classes[i]);
+                    y = parseInt(classes[i].replace(able + "-row", ""), 10);
+                    y--;
                     break;
                 }
             }
-        },
-
-        right: function (evt) {
-            var elements = $("." + this.opts.focusableClass);
-            actv = this.opts.focusedClass;
-            for (var i = 0; i < elements.length - 1; i++) {
-                if (elements.eq(i).hasClass(actv)) {
-                    elements.eq(i).removeClass(actv);
-                    elements.eq(i + 1).focus().addClass(actv);
+            // x
+            for (x = 0, len = rows.length; x < len; x++) {
+                if ($(rows[x]).hasClass(actv)) {
                     break;
                 }
             }
+            // cols
+            for (var key in this.cardMap) {
+                var temp = this.cardMap[key][x];
+                if (typeof temp == "undefined") {
+                    temp = this.cardMap[key].last();
+                }
+                cols.push(temp);
+            }
+            var result = {rows: rows, cols: cols, x: x, y: y};
+            return result;
         }
     };
 
     var EventManager = function (target, settings) {
         this.opts = $.extend({
-            activeFirstElement: false,
             customKeyEvent: {},
+            focusedPoint: null,
             focusableClass: "focusable",
-            focusedClass: "focused",
-            direction: "h"
+            focusedClass: "focused"
         }, settings);
 
-        this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, BACK: 8};
-        if (this.opts.direction.trim() == "v") {
-            $.extend(this.keys, {
-                LEFT: 38, UP: 37, RIGHT: 40, DOWN: 39
-            });
-        }
-        console.log(this.keys);
-        this.arrow = new Arrow(this.opts);
+        this.keys = {LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40};
+        this.cards = $("[class*=" + this.opts.focusableClass + "-row]");
+        this.arrow = new Arrow(this.cards, this.opts);
         this.target = target;
         this.__constructor__();
     };
@@ -97,21 +130,24 @@
         __constructor__: function () {
             // destroy arrowkeys
             this.destroy();
-            
-            if (this.opts.activeFirstElement) {
-                this.activeFirstElement();
-            }
+            // Activated elements on load 
+            var point = this.opts.focusedPoint || {x: 1, y: 1};
+            this.activeElement(point);
+            // Assigned to tabindex default is 1
             var tabindex = this.opts.tabindex || 1;
             $(this.target).attr("tabindex", tabindex);
         },
-
-        // Selected the first element
-        activeFirstElement: function () {
-            var cards = $("." + this.opts.focusableClass),
-                actv = this.opts.focusedClass;
-            cards.first().focus().addClass(actv);
+        activeElement: function (point) {
+            var actv = this.opts.focusedClass;
+            // Remove all selected elements
+            $("." + actv).blur().removeClass(actv);
+            // selected elements
+            var row = this.cards.filter("." + this.opts.focusableClass + "-row" + point.y);
+            if (point.x >= row.length || point.x < 1) {
+                point.x = 1;
+            }
+            $(row).eq(--point.x).focus().addClass(actv);
         },
-
         // Handle event maps.
         // Bind all custom events to key
         addCustomKeyEvent: function (evt) {
@@ -121,69 +157,34 @@
                 if (key == (evt.keyCode || evt.which) && $.isFunction(KeyEvent[key])) {
                     // Trigger custom event
                     KeyEvent[key].call(this, evt);
+                    evt.preventDefault();
                 }
             }
         },
-
         addCommonKeyEvent: function (evt) {
             var keys = this.keys,
                 actv = this.opts.focusedClass,
                 focused = $('.' + actv);
-
             evt = evt || window.event;
             var keyCode = evt.which || evt.keyCode;
 
-            // Focus the first element if has not actives.
-            if (focused.length === 0) {
+            // enter event
+            if (keyCode === 13 && $.isFunction(this.opts.enterFunc)) {
+                this.opts.enterFunc.call(this, focused, evt);
+                evt.preventDefault();
+                // backspace event
+            } else if (keyCode === 8 && $.isFunction(this.opts.backFunc)) {
+                this.opts.backFunc.call(this, focused, evt);
+                evt.preventDefault();
+                // arrow keys event
+            } else {
                 for (var key in keys) {
                     if (keyCode === keys[key]) {
-                        this.activeFirstElement();
+                        this.arrow.movement(key);
+                        evt.preventDefault();
                         return;
                     }
                 }
-            }
-
-            switch (keyCode) {
-                case keys.LEFT:
-                    this.arrow.left(evt);
-                    evt.preventDefault();
-                    break;
-
-                case keys.UP:
-                    this.arrow.up(evt);
-                    evt.preventDefault();
-                    break;
-
-                case keys.RIGHT:
-                    this.arrow.right(evt);
-                    evt.preventDefault();
-                    break;
-
-                case keys.DOWN:
-                    this.arrow.down(evt);
-                    evt.preventDefault();
-                    break;
-
-                case keys.ENTER:
-                    if ($.isFunction(this.opts.enterFunc)) {
-                        this.opts.enterFunc.call(this, focused, evt);
-                    } else {
-                        // default enter event
-                    }
-                    evt.preventDefault();
-                    break;
-
-                case keys.BACK:
-                    if ($.isFunction(this.opts.backFunc)) {
-                        this.opts.backFunc.call(this, focused, evt);
-                    } else {
-                        // default back event
-                    }
-                    evt.preventDefault();
-                    break;
-
-                default:
-                    return;
             }
         },
         destroy: function () {
@@ -199,14 +200,14 @@
         var target = this || document,
             boss = new EventManager(target, settings);
 
-
         // bind event
         $(target).keydown(function (evt) {
             boss.addCommonKeyEvent(evt);
             boss.addCustomKeyEvent(evt);
         });
 
-        return jQuery;
+        return $(target);
     };
 
 }));
+

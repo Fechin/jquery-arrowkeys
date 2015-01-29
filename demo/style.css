@@ -6,31 +6,42 @@
  */
 
 body {
-	background: white;
-	color: black;
+    background: white;
+    color: black;
+}
+
+article {
+    width: 900px;
+    height: 350px;
+    margin: 100px auto;
+}
+
+section {
+    margin-left: 50px;
+    display: inline-block;
 }
 
 div {
-    width:80px;
-    height:80px;
-    background:gray;
-    display:inline-block;
-    margin:5px;
+    width: 80px;
+    height: 80px;
+    background: rgb(210, 210, 210);
+    display: inline-block;
+    margin: 2px;
+    cursor: pointer;
 }
-div span {
-    text-align:center;
-    margin 0 auto;
-    font-size:30px;
+
+.placeholder {
+    background: white;
 }
+
 .focused {
-    border:2px solid red;
-    border-radius: 10px;
-}
-.barrier{
-    background: red;
-}
-.active {
-    border:3px solid orange;
-    border-radius: 10px;
+    background: rgba(247, 159, 209, 0.84);
+    outline: 2px auto #E502FF;
+    outline-offset: 1px;
+    -webkit-transition: background 100ms ease-in;
+    -moz-transition: background 100ms ease-in;
+    -ms-transition: background 100ms ease-in;
+    -o-transition: background 100ms ease-in;
+    transition: background 100ms ease-in;
 }
 

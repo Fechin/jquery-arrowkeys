@@ -4,52 +4,97 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title></title>
-    <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="style.css" type="text/css" media="all"/>
 </head>
 <body>
 <article>
-    <div class="focusable"><span>1</span>
+    <header>
+        <nav>
+            <a href="javascript:void(0);" onclick="activeDemo1(this)">Demo1</a>
+            <a href="javascript:void(0);" onclick="activeDemo2(this)">Demo2</a>
+        </nav>
+        <p></p>
+    </header>
+    <section id="demo1">
+        <div class="focusable-row1"></div>
+        <div class="focusable-row1"></div>
+        <div class="focusable-row1"></div>
+        <div class="focusable-row1"></div>
+        <br>
 
-    </div>
-    <div class="focusable"><span>2</span>
+        <div class="focusable-row2"></div>
+        <div class="focusable-row2 otherclass"></div>
+        <div class="focusable-row2 other"></div>
+        <div class="focusable-row2"></div>
+        <br>
 
-    </div>
-    <div class="barrier"><span>3</span>
+        <div class="focusable-row3"></div>
+        <div class="focusable-row3"></div>
+        <div class="focusable-row3"></div>
+        <div class="focusable-row3"></div>
+        <br>
 
-    </div>
-    <div class="focusable"><span>3</span>
+        <div class="focusable-row4"></div>
+        <div class="focusable-row4"></div>
+        <div class="focusable-row4"></div>
+        <div class="focusable-row4"></div>
+    </section>
+    <section id="demo2">
+        <div class="focusable-demo2-row1"></div>
+        <div class="focusable-demo2-row1"></div>
+        <div class="focusable-demo2-row1"></div>
+        <div class="focusable-demo2-row1"></div>
+        <br>
 
-    </div>
-    <div class="barrier"><span>3</span>
-    </div>
-    <div>
-        <div class="focusable"><span>4</span>
+        <div class="focusable-demo2-row2"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="focusable-demo2-row2"></div>
+        <br>
 
-        </div>
-    </div>
+        <div class="placeholder"></div>
+        <div class="focusable-demo2-row3"></div>
+        <div class="focusable-demo2-row3"></div>
+        <div class="focusable-demo2-row3"></div>
+        <br>
+
+        <div class="focusable-demo2-row4"></div>
+        <div class="focusable-demo2-row4"></div>
+        <div class="focusable-demo2-row4"></div>
+        <div class="placeholder"></div>
+    </section>
 </article>
 </body>
 <script src="../libs/jquery/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../dist/arrowkeys.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- <script src="../src/arrowkeys.js" type="text/javascript" charset="utf&#45;8"></script> -->
 <script type="text/javascript" charset="utf-8">
-    $(document).arrowkeys({
-        customKeyEvent: {
-            // KeyCode : function
-            65 : function(evt){ alert("a" + this + evt.keyCode); },
-            66 : function(evt){ alert("b"); } 
-        },
-        enterFunc : function(obj, evt){
-            alert("enter:" + obj.text());
-        },
-        backFunc : function(obj, evt){
-            alert("back");
-        },
-        upFunc : function(obj, evt){
-            alert("up");
-        },
-        downFunc : function(obj, evt){
-            alert("down");
-        },
-    });
+    function activeDemo1(obj) {
+        $(obj).blur();
+        $(document).arrowkeys();
+    }
+    activeDemo1();
+
+    function activeDemo2(obj) {
+        $(obj).blur();
+        $(document).arrowkeys({
+            focusableClass: "focusable-demo2",
+            focusedClass: "focused",
+            focusedPoint: {x: 2, y: 3},
+            tabindex: 1,
+            customKeyEvent: {
+                // KeyCode : function
+                65: function (evt) { alert("a" + this + evt.keyCode); },
+                66: function (evt) { alert("b"); }
+            },
+            enterFunc: function (obj, evt) {
+                alert("demo2-enter:\t" + $(obj).attr("class"));
+            },
+            backFunc: function (obj, evt) {
+                alert("demo2-back:\t" + $(obj).attr("class"));
+            }
+        });
+    }
 </script>
 </html>
+
