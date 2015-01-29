@@ -74,8 +74,19 @@
             }
             // Add focused class to next card
             $(line[index]).focus().addClass(actv);
-            return {x: ++pos.x, y: ++pos.y};
-            
+            // Storage point
+            var point = {x: ++pos.x, y: ++pos.y};
+            this.storage(point);
+            return point;
+
+        },
+        storage: function (point) {
+            if (window.sessionStorage) {
+                sessionStorage.setItem(this.opts.focusableClass + "-point-x", point.x);
+                sessionStorage.setItem(this.opts.focusableClass + "-point-y", point.y);
+            } else {
+                console.log('Broswer does not support sessionStorage');
+            }
         },
         position: function () {
             var rows = [], cols = [],
@@ -133,7 +144,13 @@
             // destroy arrowkeys
             this.destroy();
             // Activated elements on load 
-            var point = this.opts.focusedPoint || {x: 1, y: 1};
+            var point = this.opts.focusedPoint || {};
+            if (window.sessionStorage) {
+                if (!point.hasOwnProperty("x")) {
+                    point.x = sessionStorage.getItem(this.opts.focusableClass + "-point-x") || 1;
+                    point.y = sessionStorage.getItem(this.opts.focusableClass + "-point-y") || 1;
+                }
+            }
             this.activeElement(point);
             // Assigned to tabindex default is 1
             var tabindex = this.opts.tabindex || 1;
@@ -145,7 +162,7 @@
             $("." + actv).blur().removeClass(actv);
             // selected elements
             var row = this.cards.filter("." + this.opts.focusableClass + "-row" + point.y);
-            if (point.x >= row.length || point.x < 1) {
+            if (point.x > row.length || point.x < 1) {
                 point.x = 1;
             }
             $(row).eq(--point.x).focus().addClass(actv);
@@ -216,4 +233,3 @@
     };
 
 }));
-
