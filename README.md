@@ -67,6 +67,7 @@ Changelog
 
 **0.1 (Jan 09 2015)**
 * First release.
+
 **0.2 (Jan 29 2015)**
 * Rewrite this plugin.
 * Support up, down, left, and right keys
