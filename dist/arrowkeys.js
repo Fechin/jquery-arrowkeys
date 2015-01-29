@@ -186,7 +186,6 @@
                         // Trigger callback function.
                         if ($.isFunction(this.opts.callback)) {
                             this.opts.callback.call(this, point, evt);
-                            var soka = "";
                         }
                         evt.preventDefault();
                         return;

@@ -145,7 +145,7 @@
             $("." + actv).blur().removeClass(actv);
             // selected elements
             var row = this.cards.filter("." + this.opts.focusableClass + "-row" + point.y);
-            if (point.x >= row.length || point.x < 1) {
+            if (point.x > row.length || point.x < 1) {
                 point.x = 1;
             }
             $(row).eq(--point.x).focus().addClass(actv);
