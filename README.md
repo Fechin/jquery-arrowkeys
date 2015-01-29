@@ -15,16 +15,17 @@ Usage
 -----
 
 1. **HTML**
-    （Don't forget to add `focusable` to element which you want to bind arrow events）
+    （Don't forget to add `focusable-row1`[Endwith `-row` and row number] to element which you want to bind arrow events）
     ```html
-    <div class="focusable"><span>1</span></div>
-    <div class="focusable"><span>2</span></div>
-    <div class="barrier"><span>3</span></div>
-    <div class="focusable"><span>4</span></div>
-    <div class="barrier"><span>5</span></div>
-    <div class="parent">
-       <div class="focusable"><span>6</span></div>
-    </div>
+    <div class="focusable-row1"></div>
+    <div class="focusable-row1"></div>
+    <div class="focusable-row2 otherclass"></div>
+    <div class="focusable-row1"></div>
+    <div class="focusable-row1"></div>
+    <br>
+    <div class="focusable-row2"></div>
+    <div class="focusable-row2 other"></div>
+    <div class="focusable-row3"></div>
 ```
 
 2. **Include jQuery And Arrowkeys Plugin**
@@ -35,19 +36,28 @@ Usage
 ```
 
 3. **Initialize Arrowkeys!**
-
+   ```html
+$(document).arrowkeys();
+```
+OR
    ```html
 <script type="text/javascript" charset="utf-8">
     $(document).arrowkeys({
+        focusableClass: "focusable",
+        focusedClass: "focused",
+        focusedPoint: {x: 2, y: 3},
+        tabindex: 1,
         customKeyEvent: {
             // KeyCode : function
-            65 : function(evt){ alert("a" + this + evt.keyCode); },
-            66 : function(evt){ alert("b"); } 
+            65: function (evt) { alert("a" + this + evt.keyCode); },
+            66: function (evt) { alert("b"); }
         },
-        enterFunc : function(obj, evt){ alert("enter:" + obj.text()); },
-        backFunc : function(obj, evt){ alert("back"); },
-        upFunc : function(obj, evt){ alert("up"); },
-        downFunc : function(obj, evt){ alert("down"); },
+        enterFunc: function (obj, evt) {
+            alert("demo2-enter:\t" + $(obj).attr("class"));
+        },
+        backFunc: function (obj, evt) {
+            alert("demo2-back:\t" + $(obj).attr("class"));
+        }
     });
 </script>
 ```
@@ -57,6 +67,10 @@ Changelog
 
 **0.1 (Jan 09 2015)**
 * First release.
+**0.2 (Jan 29 2015)**
+* Rewrite this plugin.
+* Support up, down, left, and right keys
+* Support active custom coordinates
 
 
 ## License
