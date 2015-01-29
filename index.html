@@ -33,32 +33,68 @@
 
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
-    <section id="main_content" class="inner">
-        <article id="demo1">
-            <header>
-               <h3>Demo 1 <a href="javascript:demo1();">active</a></h3> 
-            </header>
-            <div class="focusable1"><span>1</span></div>
-            <div class="focusable1"><span>2</span></div>
-            <div class="focusable1"><span>3</span></div>
-            <div class="focusable1"><span>4</span></div>
-        </article>
-        <article id="demo2">
-            <header>
-               <h3>Demo 2 <a href="javascript:demo2();">active</a></h3> 
-            </header>
-            <div class="focusable2"><span>1</span></div>
-            <div class="focusable2"><span>2</span></div>
-            <section id="wrap">
-                <div class="focusable2"><span>3</span></div>
-                <div class="focusable2"><span>4</span></div>
+        <article class="demo">
+            <section id="demo1">
+                <header>
+                    <nav>
+                        Demo1: <a href="javascript:void(0);" onclick="activeDemo1(this)">Click to active</a>
+                    </nav>
+                    <p></p>
+                </header>
+                <div class="focusable-row1"></div>
+                <div class="focusable-row1"></div>
+                <div class="focusable-row1"></div>
+                <div class="focusable-row1"></div>
+                <br>
+
+                <div class="focusable-row2"></div>
+                <div class="focusable-row2 otherclass"></div>
+                <div class="focusable-row2 other"></div>
+                <div class="focusable-row2"></div>
+                <br>
+
+                <div class="focusable-row3"></div>
+                <div class="focusable-row3"></div>
+                <div class="focusable-row3"></div>
+                <div class="focusable-row3"></div>
+                <br>
+
+                <div class="focusable-row4"></div>
+                <div class="focusable-row4"></div>
+                <div class="focusable-row4"></div>
+                <div class="focusable-row4"></div>
+            </section>
+            <section id="demo2">
+                <header>
+                    <nav>
+                        Demo2: <a href="javascript:void(0);" onclick="activeDemo2(this)">Click to active </a>
+                    </nav>
+                    <p></p>
+                </header>
+                <div class="focusable-demo2-row1"></div>
+                <div class="focusable-demo2-row1"></div>
+                <div class="focusable-demo2-row1"></div>
+                <div class="focusable-demo2-row1"></div>
+                <br>
+
+                <div class="focusable-demo2-row2"></div>
+                <div class="placeholder"></div>
+                <div class="placeholder"></div>
+                <div class="focusable-demo2-row2"></div>
+                <br>
+
+                <div class="placeholder"></div>
+                <div class="focusable-demo2-row3"></div>
+                <div class="focusable-demo2-row3"></div>
+                <div class="focusable-demo2-row3"></div>
+                <br>
+
+                <div class="focusable-demo2-row4"></div>
+                <div class="focusable-demo2-row4"></div>
+                <div class="focusable-demo2-row4"></div>
+                <div class="placeholder"></div>
             </section>
         </article>
-        <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span
-                class="octicon octicon-link"></span></a>Support or Contact</h3>
-        <p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a>
-            or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-    </section>
 </div>
 
 <!-- FOOTER  -->
@@ -75,30 +111,31 @@
 <script src="javascripts/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="javascripts/arrowkeys.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
-    function demo1(){
+    function activeDemo1(obj) {
+        $(obj).blur();
+        $(document).arrowkeys();
+    }
+    activeDemo1();
+
+    function activeDemo2(obj) {
+        $(obj).blur();
         $(document).arrowkeys({
-            focusableClass:"focusable1",
-            focusedClass:"focused1",
-            activeFirstElement:true,
+            focusableClass: "focusable-demo2",
+            focusedClass: "focused",
+            focusedPoint: {x: 2, y: 3},
+            tabindex: 1,
             customKeyEvent: {
                 // KeyCode : function
-                65 : function(evt){ alert("a" + this + evt.keyCode); },
-                66 : function(evt){ alert("b"); } 
+                65: function (evt) { alert("a" + this + evt.keyCode); },
+                66: function (evt) { alert("b"); }
             },
-            enterFunc : function(obj, evt){ alert("enter:" + obj.text()); },
-            backFunc : function(obj, evt){ alert("back"); },
-            upFunc : function(obj, evt){ alert("up"); },
-            downFunc : function(obj, evt){ alert("down"); },
-        }); 
-    }
-    function demo2(){
-        $(document).unbind("keydown");
-        $(document).arrowkeys({
-            focusableClass:"focusable2",
-            direction:"v", // vertical
-            focusedClass:"focused2",
-            activeFirstElement:true
-        }); 
+            enterFunc: function (obj, evt) {
+                alert("demo2-enter:\t" + $(obj).attr("class"));
+            },
+            backFunc: function (obj, evt) {
+                alert("demo2-back:\t" + $(obj).attr("class"));
+            }
+        });
     }
 </script>
 </html>

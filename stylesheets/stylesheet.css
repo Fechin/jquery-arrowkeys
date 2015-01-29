@@ -426,34 +426,51 @@ Small Device Styles
 /*******************************************************************************
 Demo
 *******************************************************************************/
-article {
-    margin-bottom: 50px;
-}
-article div{
-    width:100px;
-    height:100px;
-    background:#37E84E;
-    margin:5px;
-    display:inline-block;
-}
-section#wrap{
-    background:#4188D2;
-    display:inline-block;
-}
-.focusable1{
-    background:#37E84E;
-}
-.focused1{
-    border:2px solid #F23D70;
-    border-radius: 5px;
-}
-.focusable2{
-    background:#F03C79;
+/*
+ * demo.css
+ * Copyright (C) 2015 Fechin
+ *
+ * Distributed under terms of the MIT license.
+ */
 
+.demo{
+    width: 871px;
+    height: 500px;
+    margin: 120px auto;
 }
-.focused2{
-    outline:#00FF00 dotted thick;
-    /* border:2px solid black; */
-    /* border-radius: 5px; */
+.demo article {
+    width: 900px;
+    height: 350px;
+    margin: 100px auto;
 }
+
+.demo section {
+    margin-left: 50px;
+    display: inline-block;
+}
+
+.demo div {
+    width: 80px;
+    height: 80px;
+    background: rgb(210, 210, 210);
+    display: inline-block;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.demo .placeholder {
+    background: white;
+}
+
+.demo .focused {
+    background: rgba(247, 159, 209, 0.84);
+    outline: 2px auto #E502FF;
+    outline-offset: 1px;
+    -webkit-transition: background 100ms ease-in;
+    -moz-transition: background 100ms ease-in;
+    -ms-transition: background 100ms ease-in;
+    -o-transition: background 100ms ease-in;
+    transition: background 100ms ease-in;
+}
+
 
