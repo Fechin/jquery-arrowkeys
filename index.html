@@ -116,8 +116,8 @@
     function activeDemo1(obj) {
         $(obj).blur();
         $(document).arrowkeys({
-            callback: function(pos, evt){
-                $("#position1").text("x:" + pos.x + "\ty:" + pos.y);
+            callback: function(point, evt){
+                $("#position1").text("x:" + point.x + "\ty:" + point.y);
             }
         });
     }
@@ -141,8 +141,8 @@
             backFunc: function (obj, evt) {
                 alert("demo2-back:\t" + $(obj).attr("class"));
             },
-            callback: function(pos, evt){
-                $("#position2").text("x:" + pos.x + "\ty:" + pos.y);
+            callback: function(point, evt){
+                $("#position2").text("x:" + point.x + "\ty:" + point.y);
             }
         });
     }
