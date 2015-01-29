@@ -62,8 +62,8 @@ OR
         backFunc: function (obj, evt) {
             alert("demo2-back:\t" + $(obj).attr("class"));
         },
-        callback: function(pos, evt){
-            console.log(pos);
+        callback: function(point, evt){
+            console.log(point);
         }
     });
 </script>
