@@ -61,6 +61,9 @@ OR
         },
         backFunc: function (obj, evt) {
             alert("demo2-back:\t" + $(obj).attr("class"));
+        },
+        callback: function(pos, evt){
+            console.log(pos);
         }
     });
 </script>
@@ -73,9 +76,9 @@ Changelog
 * First release.
 
 **0.2 (Jan 29 2015)**
-* Rewrite this plugin.
-* Support up, down, left, and right keys
+* Rewrite this plugin,Support up, down, left, and right keys
 * Support active custom coordinates
+* Add a callback method that returns the coordinates
 
 
 ## License
