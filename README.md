@@ -79,6 +79,7 @@ Changelog
 * Rewrite this plugin,Support up, down, left, and right keys
 * Support active custom coordinates
 * Add a callback method that returns the coordinates
+* Storing historical coordinates(sessionStorage)
 
 
 ## License
