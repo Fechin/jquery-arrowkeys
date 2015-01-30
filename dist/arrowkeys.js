@@ -81,9 +81,9 @@
 
         },
         storage: function (point) {
-            if (window.sessionStorage) {
-                sessionStorage.setItem(this.opts.focusableClass + "-point-x", point.x);
-                sessionStorage.setItem(this.opts.focusableClass + "-point-y", point.y);
+            var storage = window.sessionStorage;
+            if (storage) {
+                storage[this.opts.focusableClass + "-point"] = JSON.stringify(point);
             } else {
                 console.log('Broswer does not support sessionStorage');
             }
@@ -145,10 +145,11 @@
             this.destroy();
             // Activated elements on load 
             var point = this.opts.focusedPoint || {};
-            if (window.sessionStorage) {
+            var storage = window.sessionStorage;
+            if (storage) {
                 if (!point.hasOwnProperty("x")) {
-                    point.x = sessionStorage.getItem(this.opts.focusableClass + "-point-x") || 1;
-                    point.y = sessionStorage.getItem(this.opts.focusableClass + "-point-y") || 1;
+                    point = storage[this.opts.focusableClass + "-point"];
+                    point = $.parseJSON(point) || {x: 1, y: 1};
                 }
             }
             this.activeElement(point);
