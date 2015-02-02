@@ -90,20 +90,26 @@
         },
         position: function () {
             var rows = [], cols = [],
-                x = 0, y = 0,
+                x = 0, y = 0, rowclass = '',
                 actv = this.opts.focusedClass,
                 able = this.opts.focusableClass;
 
             var classes = this.cards.filter("." + actv)
                 .attr("class").split(" ");
-            // rows and y
+            // rows
             for (var i = 0, len = classes.length; i < len; i++) {
                 if (classes[i].indexOf(able) > -1) {
-                    rows = this.cards.filter("." + classes[i]);
-                    y = parseInt(classes[i].replace(able + "-row", ""), 10);
-                    y--;
+                    rowclass = classes[i];
+                    rows = this.cards.filter("." + rowclass);
                     break;
                 }
+            }
+            // y
+            for (var r in this.cardMap){
+                if (rowclass === r) {
+                    break;
+                }
+                y++;
             }
             // x
             for (x = 0, len = rows.length; x < len; x++) {
@@ -162,7 +168,15 @@
             // Remove all selected elements
             $("." + actv).blur().removeClass(actv);
             // selected elements
-            var row = this.cards.filter("." + this.opts.focusableClass + "-row" + point.y);
+            var row = [], y = 0;
+            point.y--;
+            for (var r in this.arrow.cardMap){
+                if (y === point.y) {
+                    row = this.cards.filter("." + r);
+                    break;
+                }
+                y++;
+            }
             if (point.x > row.length || point.x < 1) {
                 point.x = 1;
             }
