@@ -1,6 +1,6 @@
 /*
  * arrowkeys.js
- * Copyright (C) 2015 Fechin <lihuoqingfly@163.com>
+ * Copyright (C) 2015 Fechin <mr.fechin@gmail.com>
  *
  * Distributed under terms of the MIT license.
  */
